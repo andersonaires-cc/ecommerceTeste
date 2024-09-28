@@ -76,23 +76,26 @@ public class CompraService {
 		BigDecimal custoTotalProdutos = carrinho.getItens().stream()
 				.map(item -> item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
-
-		BigDecimal frete = calcularFrete(carrinho); // Calcular frete
-		custoTotalProdutos = aplicarDescontos(custoTotalProdutos, carrinho); // Aplicar descontos
-
+	
+		// Calcular o frete
+		BigDecimal frete = calcularFrete(carrinho);
+	
+		// Aplicar descontos ao custo total dos produtos
+		custoTotalProdutos = aplicarDescontos(custoTotalProdutos, carrinho);
+	
 		// Adicionar o frete ao custo total, exceto para cliente do tipo OURO
 		Cliente cliente = carrinho.getCliente();
 		if (cliente != null && cliente.getTipo() == TipoCliente.OURO) {
-			System.out.println("Custo Total dos Produtos: " + custoTotalProdutos);
-			System.out.println("Frete: " + frete);
-			System.out.println("Custo Total após Descontos: " + custoTotalProdutos);
 			return custoTotalProdutos; // Sem frete para cliente OURO
+		} else if (cliente != null && cliente.getTipo() == TipoCliente.PRATA) {
+			// Aplica 50% de desconto no frete
+			return custoTotalProdutos.add(frete.multiply(BigDecimal.valueOf(0.5)));
+		} else {
+			// Para Bronze e outros clientes, o frete é integral
+			return custoTotalProdutos;
 		}
-		System.out.println("Custo Total dos Produtos: " + custoTotalProdutos);
-		System.out.println("Frete: " + frete);
-		System.out.println("Custo Total após Descontos: " + custoTotalProdutos);
-		return custoTotalProdutos;
 	}
+	
 
 	// Método para calcular o frete
 	private BigDecimal calcularFrete(CarrinhoDeCompras carrinho) {
@@ -115,12 +118,6 @@ public class CompraService {
 		return frete;
 	}
 
-	// Método para aplicar descontos
-	/**
-	 * @param custoTotal
-	 * @param carrinho
-	 * @return
-	 */
 	private BigDecimal aplicarDescontos(BigDecimal custoTotal, CarrinhoDeCompras carrinho) {
 		// Desconto de acordo com o valor total da compra
 		if (custoTotal.compareTo(BigDecimal.valueOf(1000.00)) > 0) {
@@ -128,27 +125,9 @@ public class CompraService {
 		} else if (custoTotal.compareTo(BigDecimal.valueOf(500.00)) > 0) {
 			custoTotal = custoTotal.multiply(BigDecimal.valueOf(0.90)); // 10% de desconto
 		}
-
-		// Verificar o tipo de cliente para aplicar desconto no frete
-		Cliente cliente = carrinho.getCliente();
-		if (cliente != null) {
-			// Use o enum TipoCliente
-			switch (cliente.getTipo()) {
-				case OURO:
-					System.out.println("Custo Total após descontos para " + cliente.getTipo() + ": " + custoTotal);
-					return custoTotal; // Isenção total do frete
-				case PRATA:
-					// Aplica 50% de desconto no frete
-					return custoTotal.subtract(calcularFrete(carrinho).multiply(BigDecimal.valueOf(0.50)));
-				case BRONZE:
-					// Pagamento integral do frete
-					return custoTotal.add(calcularFrete(carrinho));
-				default:
-					throw new IllegalArgumentException("Tipo de cliente inválido");
-			}
-		}
-
-		return custoTotal; // Retornar custo total sem desconto se cliente não encontrado
+		return custoTotal; // Retornar custo total após aplicar descontos
 	}
+	
+	
 
 }
