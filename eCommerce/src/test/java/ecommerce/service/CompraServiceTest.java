@@ -99,4 +99,48 @@ public class CompraServiceTest {
         assertEquals(new BigDecimal("960.000"), custoTotal);
     }
 
+    @Test
+    public void testCalcularCustoTotal_WithoutFrete_Ouro2() {
+        // Arrange: Configurar o carrinho com peso e produtos
+        Produto produto1 = new Produto(1L, "Produto 1", "Descrição do Produto 1", new BigDecimal("100.00"), 1,
+                TipoProduto.ELETRONICO);
+        Produto produto2 = new Produto(2L, "Produto 2", "Descrição do Produto 2", new BigDecimal("300.00"), 2,
+                TipoProduto.ROUPA);
+
+        ItemCompra item1 = new ItemCompra(1L, produto1, 1L);
+        ItemCompra item2 = new ItemCompra(2L, produto2, 1L);
+
+        CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
+        carrinho.setCliente(new Cliente(TipoCliente.OURO)); // Cliente do tipo Ouro
+        carrinho.setItens(Arrays.asList(item1, item2));
+
+        // Act: Chamar o método calcularCustoTotal
+        BigDecimal custoTotal = compraService.calcularCustoTotal(carrinho);
+
+        // Assert: Verificar se o custo final está correto (sem frete para cliente Ouro)
+        assertThat(custoTotal).isEqualTo(new BigDecimal("400.00"));
+    }
+
+    @Test
+    public void testCalcularCustoTotal_WithFrete_Prata2() {
+        // Arrange: Configurar o carrinho com peso e produtos
+        Produto produto1 = new Produto(1L, "Produto 1", "Descrição 1", new BigDecimal("500.00"), 4,
+                TipoProduto.ELETRONICO);
+        Produto produto2 = new Produto(2L, "Produto 2", "Descrição 2", new BigDecimal("200.00"), 1, 
+                TipoProduto.ROUPA);
+    
+        ItemCompra item1 = new ItemCompra(1L, produto1, 1L);
+        ItemCompra item2 = new ItemCompra(2L, produto2, 1L);
+    
+        CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
+        carrinho.setCliente(new Cliente(TipoCliente.PRATA));
+        carrinho.setItens(Arrays.asList(item1, item2));
+    
+        // Act: Chamar o método calcularCustoTotal
+        BigDecimal custoTotal = compraService.calcularCustoTotal(carrinho);
+    
+        // Assert: Verificar se o custo final está correto (com frete e desconto para cliente Prata)
+        assertEquals(new BigDecimal("635.000"), custoTotal);
+    }
+
 }
