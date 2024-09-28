@@ -41,6 +41,14 @@
 			<version>5.0.1</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.23.1</version> <!-- Use a versão mais recente disponível -->
+			<scope>test</scope>
+		</dependency>		
+				
 		<!-- Spring Boot Web Starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

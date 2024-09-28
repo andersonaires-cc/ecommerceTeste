@@ -30,6 +30,11 @@ public class Cliente {
         this.tipo = tipo;
     }
 
+    // Construtor apenas com TipoCliente
+    public Cliente(TipoCliente tipo) {
+        this.tipo = tipo;
+    }
+
     // Getters e Setters
     public Long getId() {
         return id;
