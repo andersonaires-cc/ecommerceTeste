@@ -41,36 +41,44 @@ public class CompraService {
 	public CompraDTO finalizarCompra(Long carrinhoId, Long clienteId) {
 		Cliente cliente = clienteService.buscarPorId(clienteId);
 		CarrinhoDeCompras carrinho = carrinhoService.buscarPorCarrinhoIdEClienteId(carrinhoId, cliente);
-
+	
+		if (carrinho == null) {
+			return new CompraDTO(false, null, "Carrinho não encontrado para o cliente."); // Retornar DTO com erro
+		}
+	
 		List<Long> produtosIds = carrinho.getItens().stream().map(i -> i.getProduto().getId())
 				.collect(Collectors.toList());
 		List<Long> produtosQtds = carrinho.getItens().stream().map(i -> i.getQuantidade()).collect(Collectors.toList());
-
+	
 		DisponibilidadeDTO disponibilidade = estoqueExternal.verificarDisponibilidade(produtosIds, produtosQtds);
-
+	
 		if (!disponibilidade.disponivel()) {
-			throw new IllegalStateException("Itens fora de estoque.");
+			return new CompraDTO(false, null, "Itens fora de estoque."); // Retornar DTO com erro
 		}
-
+	
 		BigDecimal custoTotal = calcularCustoTotal(carrinho);
-
+	
 		PagamentoDTO pagamento = pagamentoExternal.autorizarPagamento(cliente.getId(), custoTotal.doubleValue());
-
+	
 		if (!pagamento.autorizado()) {
-			throw new IllegalStateException("Pagamento não autorizado.");
+			// Chamar cancelamento do pagamento simulado
+			pagamentoExternal.cancelarPagamento(cliente.getId(), null); // Você pode passar o ID da transação se necessário
+			return new CompraDTO(false, null, "Pagamento não autorizado."); // Retornar DTO com erro
 		}
-
+	
 		EstoqueBaixaDTO baixaDTO = estoqueExternal.darBaixa(produtosIds, produtosQtds);
-
+	
 		if (!baixaDTO.sucesso()) {
 			pagamentoExternal.cancelarPagamento(cliente.getId(), pagamento.transacaoId());
-			throw new IllegalStateException("Erro ao dar baixa no estoque.");
+			return new CompraDTO(false, null, "Erro ao dar baixa no estoque."); // Retornar DTO com erro
 		}
-
+	
 		CompraDTO compraDTO = new CompraDTO(true, pagamento.transacaoId(), "Compra finalizada com sucesso.");
-
+	
 		return compraDTO;
 	}
+	
+	
 
 	public BigDecimal calcularCustoTotal(CarrinhoDeCompras carrinho) {
 		BigDecimal custoTotalProdutos = carrinho.getItens().stream()

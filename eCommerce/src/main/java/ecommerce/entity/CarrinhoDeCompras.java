@@ -36,7 +36,7 @@ public class CarrinhoDeCompras {
         this.id = id;
         this.cliente = cliente;
         this.itens = itens;
-        this.data = data;
+        this.data = LocalDate.now();
     }
 
     // Getters e Setters
