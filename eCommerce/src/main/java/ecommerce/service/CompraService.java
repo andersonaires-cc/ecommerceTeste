@@ -93,9 +93,9 @@ public class CompraService {
 	
 		// Adicionar o frete ao custo total, exceto para cliente do tipo OURO
 		Cliente cliente = carrinho.getCliente();
-		if (cliente != null && cliente.getTipo() == TipoCliente.OURO) {
+		if (cliente.getTipo() == TipoCliente.OURO) {
 			return custoTotalProdutos; // Sem frete para cliente OURO
-		} else if (cliente != null && cliente.getTipo() == TipoCliente.PRATA) {
+		} else if (cliente.getTipo() == TipoCliente.PRATA) {
 			// Aplica 50% de desconto no frete
 			return custoTotalProdutos.add(frete.multiply(BigDecimal.valueOf(0.5)));
 		} else {
