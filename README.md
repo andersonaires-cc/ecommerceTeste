@@ -10,7 +10,7 @@ Este projeto consiste na implementação de um sistema de finalização de compr
 
 ## Pré-requisitos
 
-Antes de começar, você precisará ter o [Visual Studio Code](https://code.visualstudio.com/) instalado em sua máquina. Além disso, é necessário instalar a extensão **Test Runner for Java**.
+Antes de começar, você precisará ter o [Visual Studio Code](https://code.visualstudio.com/download) instalado em sua máquina. Além disso, é necessário instalar a extensão **Test Runner for Java**.
 
 ### Instalação da Extensão
 
@@ -35,19 +35,21 @@ As duas planilhas contêm os casos de teste que foram implementados para validar
 
 Você pode acessar as planilhas através dos seguintes links:
 
-- **Planilha de Casos de Teste - Controlador de Compra**: [Link para a Planilha de Casos de Teste](#)
-- **Planilha de Casos de Teste - Repositório de Carrinho**: [Link para a Planilha de Casos de Teste](#)
+- **Planilha de Casos de Teste - Controller do Compra**: [Link para a Planilha de Casos de Teste Compra](https://github.com/andersonaires-cc/ecommerceTeste/blob/main/casos_de_teste_compra.xlsx)
+- **Planilha de Casos de Teste - Compra Service do Carrinho**: [Link para a Planilha de Casos de Teste Controller](https://github.com/andersonaires-cc/ecommerceTeste/blob/main/casos_de_teste_compra_service.xlsx)
 
 ## Contribuições
 
 Sinta-se à vontade para contribuir com o projeto! Se você encontrar algum bug ou tiver sugestões de melhorias, entre em contato.
+Meu Github
+https://github.com/andersonaires-cc
 
 ---
 
 ### Espaço para Imagens
 
-![Imagem 1](#)  
-*Legenda da imagem 1*
+![Imagem 1](https://github.com/andersonaires-cc/ecommerceTeste/blob/main/compraCxontroller.png)  
+*100%Cobertura Controller Testes
 
-![Imagem 2](#)  
-*Legenda da imagem 2*
+![Imagem 2](https://github.com/andersonaires-cc/ecommerceTeste/blob/main/compraService.png)  
+*100% cobertura Compra Service
