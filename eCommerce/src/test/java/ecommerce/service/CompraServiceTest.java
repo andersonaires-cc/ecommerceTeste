@@ -79,35 +79,36 @@ public class CompraServiceTest {
                 estoqueSimulado = new EstoqueSimulado();
         }
 
-
         @Test
         void verificarDisponibilidade_ProdutosIndisponiveis() {
-            // Dado uma lista de IDs de produtos com um produto
-            Long produtoIndisponivelId = 1L;
-            List<Long> produtosIds = Arrays.asList(produtoIndisponivelId);
-            List<Long> produtosQuantidades = Arrays.asList(5L); // quantidade como Long
-    
-            // Quando verificar a disponibilidade
-            DisponibilidadeDTO disponibilidade = estoqueSimulado.verificarDisponibilidade(produtosIds, produtosQuantidades);
-    
-            // Então deve retornar que o produto está indisponível
-            assertEquals(false, disponibilidade.disponivel());
-            assertEquals(1, disponibilidade.idsProdutosIndisponiveis().size());
-            assertEquals(produtoIndisponivelId, disponibilidade.idsProdutosIndisponiveis().get(0));
+                // Dado uma lista de IDs de produtos com um produto
+                Long produtoIndisponivelId = 1L;
+                List<Long> produtosIds = Arrays.asList(produtoIndisponivelId);
+                List<Long> produtosQuantidades = Arrays.asList(5L); // quantidade como Long
+
+                // Quando verificar a disponibilidade
+                DisponibilidadeDTO disponibilidade = estoqueSimulado.verificarDisponibilidade(produtosIds,
+                                produtosQuantidades);
+
+                // Então deve retornar que o produto está indisponível
+                assertEquals(false, disponibilidade.disponivel());
+                assertEquals(1, disponibilidade.idsProdutosIndisponiveis().size());
+                assertEquals(produtoIndisponivelId, disponibilidade.idsProdutosIndisponiveis().get(0));
         }
 
         @Test
         void verificarDisponibilidade_ProdutosDisponiveis() {
-            // Dado uma lista vazia de IDs de produtos
-            List<Long> produtosIds = Arrays.asList(); // lista vazia
-            List<Long> produtosQuantidades = Arrays.asList(); // lista vazia
-    
-            // Quando verificar a disponibilidade
-            DisponibilidadeDTO disponibilidade = estoqueSimulado.verificarDisponibilidade(produtosIds, produtosQuantidades);
-    
-            // Então deve retornar que não há produtos indisponíveis
-            assertEquals(true, disponibilidade.disponivel());
-            assertEquals(0, disponibilidade.idsProdutosIndisponiveis().size());
+                // Dado uma lista vazia de IDs de produtos
+                List<Long> produtosIds = Arrays.asList(); // lista vazia
+                List<Long> produtosQuantidades = Arrays.asList(); // lista vazia
+
+                // Quando verificar a disponibilidade
+                DisponibilidadeDTO disponibilidade = estoqueSimulado.verificarDisponibilidade(produtosIds,
+                                produtosQuantidades);
+
+                // Então deve retornar que não há produtos indisponíveis
+                assertEquals(true, disponibilidade.disponivel());
+                assertEquals(0, disponibilidade.idsProdutosIndisponiveis().size());
         }
 
         @Test
@@ -192,9 +193,6 @@ public class CompraServiceTest {
                 assertFalse(resultado.sucesso(), "A compra deve ter falhado.");
                 assertEquals("Itens fora de estoque.", resultado.mensagem(), "A mensagem de erro deve ser a esperada.");
         }
-
-
-
 
         @Test
         public void testFinalizarCompra_PagamentoNaoAutorizado() {
@@ -443,5 +441,6 @@ public class CompraServiceTest {
                 assertEquals("Carrinho não encontrado para o cliente.", resultado.mensagem(),
                                 "A mensagem de erro deve ser a esperada.");
         }
+
 
 }
